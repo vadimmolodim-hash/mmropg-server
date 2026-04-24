@@ -13,7 +13,7 @@ const io = new Server(httpServer, {
 app.use(cors());
 app.use(express.json());
 
-const BOT_TOKEN = process.env.BOT_TOKEN || 'ВСТАВЬ_ТОКЕН_СЮДА';
+const BOT_TOKEN = process.env.BOT_TOKEN || '8547230036:AAECpI-mUgglfGIzgy6KCEYm-BdwvUI6BJQ';
 
 function validateTelegramData(initData) {
     const params = new URLSearchParams(initData);
