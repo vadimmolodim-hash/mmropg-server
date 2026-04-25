@@ -318,7 +318,7 @@ app.get('/socket.io/', (req, res) => {
     res.send('Socket.io endpoint');
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 httpServer.listen(PORT, () => {
     console.log(`🚀 Server on port ${PORT}`);
     console.log(`📡 Socket.io ready`);
