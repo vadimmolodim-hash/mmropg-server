@@ -1,6 +1,4 @@
-
-# Создаём исправленный сервер с правильным CORS и Socket.io
-server_fixed = '''const express = require('express');
+const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const crypto = require('crypto');
@@ -38,7 +36,7 @@ const io = new Server(httpServer, {
 
 app.use(express.json());
 
-const BOT_TOKEN = process.env.BOT_TOKEN || 'ВСТАВЬ_ТОКЕН_СЮДА';
+const BOT_TOKEN = process.env.BOT_TOKEN || '8547230036:AAECpI-mUgglfGIzgy6KCEYm-BdwvUI6BJQ';
 
 function validateTelegramData(initData) {
     if (!initData || initData === 'undefined') return false;
@@ -50,7 +48,7 @@ function validateTelegramData(initData) {
         const dataCheckString = Array.from(params.entries())
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([key, value]) => `${key}=${value}`)
-            .join('\\n');
+            .join('\n');
         const secretKey = crypto.createHmac('sha256', 'WebAppData')
             .update(BOT_TOKEN).digest();
         const checkHash = crypto.createHmac('sha256', secretKey)
@@ -164,7 +162,7 @@ io.on('connection', (socket) => {
     socket.on('auth', (data) => {
         const { initData } = data;
         console.log('Auth attempt from:', socket.id);
-        
+
         // Для тестов пропускаем проверку если нет initData
         let user;
         if (!initData || initData.includes('test') || !validateTelegramData(initData)) {
@@ -173,7 +171,7 @@ io.on('connection', (socket) => {
         } else {
             user = getUserFromInitData(initData);
         }
-        
+
         const player = {
             socketId: socket.id,
             id: user.id,
@@ -325,15 +323,3 @@ httpServer.listen(PORT, () => {
     console.log(`🚀 Server on port ${PORT}`);
     console.log(`📡 Socket.io ready`);
 });
-'''
-
-with open('/mnt/agents/output/mmorpg-telegram/server/server.js', 'w', encoding='utf-8') as f:
-    f.write(server_fixed)
-
-print("✅ Сервер исправлен!")
-print("\n🔧 Что изменено:")
-print("1. CORS настроен правильно для всех доменов")
-print("2. Socket.io с поддержкой polling + websocket")
-print("3. Добавлен allowEIO3 для совместимости")
-print("4. Тестовый режим если нет Telegram initData")
-print("5. Health check с CORS заголовками")
